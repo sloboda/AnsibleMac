@@ -21,15 +21,6 @@ These instructions expand upon those guidelines.
 8. Install everything else using Ansible playbooks as shown below.
 
 
-### Installing Pip
-
-```
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py --user
-### NOTE The scripts pip, pip2 and pip2.7 are installed
-### in '/Users/david/Library/Python/2.7/bin' which is not on PATH.
-```
-
 ### Installing Ansible
 
 ```
