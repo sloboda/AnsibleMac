@@ -1,0 +1,39 @@
+---
+### Directions on how to run this:
+# https://github.com/geerlingguy/mac-dev-playbook
+# installs homebrew, iTerm2, MacVim, Terraform
+- hosts: localhost
+  user: david
+  connection: local
+
+  vars_files:
+    - vars/main.yml
+
+  roles: 
+    - geerlingguy.homebrew
+#   - geerlingguy.dotfiles
+
+  tasks: 
+  # install vundle
+    - name: set up dot vim
+      file:
+        path: ~/.vim
+        state: directory
+        mode: '0755'
+      tags: vim
+    - name: set up dot vim bundle
+      file:
+        path: ~/.vim/bundle
+        state: directory
+        mode: '0755'
+      tags: vim
+    - name: clone vundle
+      git:
+        repo: 'https://github.com/VundleVim/Vundle.vim.git'
+        dest: ~/.vim/bundle/Vundle.vim
+        clone: yes
+      tags: vim
+    - name: activate vundle
+      command: 'vim +PluginInstall +qall'
+      tags: vim
+    
