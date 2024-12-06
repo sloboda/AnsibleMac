@@ -1,39 +1,66 @@
 ---
-### Directions on how to run this:
-# https://github.com/geerlingguy/mac-dev-playbook
-# installs homebrew, iTerm2, MacVim, Terraform
-- hosts: localhost
-  user: david
+### Additional directions on how to run this:
+# https://github.com/geerlingguy/mac-dev-playbook/tree/master
+# https://github.com/geerlingguy/mac-dev-playbook/blob/master/main.yml
+# https://github.com/geerlingguy/mac-dev-playbook/blob/master/full-mac-setup.md
+
+- name: Configure host.
+  hosts: localhost
   connection: local
 
   vars_files:
-    - vars/main.yml
+    - default.config.yml
 
-  roles: 
-    - geerlingguy.homebrew
-#   - geerlingguy.dotfiles
+  pre_tasks:
+    - name: Include playbook configuration.
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/config.yml"
+      tags: ['always']
 
-  tasks: 
-  # install vundle
-    - name: set up dot vim
-      file:
-        path: ~/.vim
-        state: directory
-        mode: '0755'
-      tags: vim
-    - name: set up dot vim bundle
-      file:
-        path: ~/.vim/bundle
-        state: directory
-        mode: '0755'
-      tags: vim
-    - name: clone vundle
-      git:
-        repo: 'https://github.com/VundleVim/Vundle.vim.git'
-        dest: ~/.vim/bundle/Vundle.vim
-        clone: yes
-      tags: vim
-    - name: activate vundle
-      command: 'vim +PluginInstall +qall'
-      tags: vim
-    
+  roles:
+    - role: elliotweiser.osx-command-line-tools
+    - role: geerlingguy.mac.homebrew
+      tags: ['homebrew']
+    - role: geerlingguy.dotfiles
+      when: configure_dotfiles
+      tags: ['dotfiles']
+    - role: geerlingguy.mac.mas
+      when: mas_installed_apps or mas_installed_app_ids
+      tags: ['mas']
+    - role: geerlingguy.mac.dock
+      when: configure_dock
+      tags: ['dock']
+
+  tasks:
+    - import_tasks: tasks/sudoers.yml
+      when: configure_sudoers
+      tags: ['sudoers']
+
+    - import_tasks: tasks/terminal.yml
+      when: configure_terminal
+      tags: ['terminal']
+
+    - import_tasks: tasks/vim.yml
+      when: configure_vim
+      tags: ['vim']
+
+    - import_tasks: tasks/osx.yml
+      when: configure_osx
+      tags: ['osx']
+
+    - import_tasks: tasks/extra-packages.yml
+      tags: ['extra-packages']
+
+    - import_tasks: tasks/sublime-text.yml
+      when: configure_sublime
+      tags: ['sublime-text']
+
+    - name: Run post-provision task files in a block.
+      tags: ['post']
+      block:
+        - name: Run configured post-provision ansible task files.
+          include_tasks: "{{ outer_item }}"
+          loop_control:
+            loop_var: outer_item
+          with_fileglob: "{{ post_provision_tasks | default(omit) }}"

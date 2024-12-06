@@ -23,16 +23,15 @@ These instructions expand upon those guidelines.
 
 ### Installing Ansible
 
-```
-pip3 install --user ansible
-```
+As above, using the python 3.9 that ships with Mac OS 15.1.1 and the pip3 that
+comes with that version of python.
+
+With my config below, Homebrew installs its own version of Ansible.
+One day in the future I will sort that out.
 
 ### Using Ansible
 
 ```
-ansible-playbook main.yml -i inventory -K
-ansible-playbook --list-tasks main.yml -i inventory -K
-ansible-playbook --tags=vim  main.yml -i inventory -K
-ansible-playbook --tags=Logbook  main.yml -i inventory -K
+ansible-playbook main.yml -K --tags "vim, dotfiles, homebrew"
 ```
 

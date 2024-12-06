@@ -1,0 +1,88 @@
+---
+configure_dotfiles: true
+configure_vim: true
+configure_terminal: false
+configure_osx: false
+
+# Set to 'true' to configure the Dock via dockutil.
+configure_dock: false
+dockitems_remove: []
+# - Launchpad
+# - TV
+# - Podcasts
+# - 'App Store'
+dockitems_persist: []
+# - name: "Sublime Text"
+#   path: "/Applications/Sublime Text.app/"
+#   pos: 5
+
+configure_sudoers: false
+sudoers_custom_config: ''
+# Example:
+# sudoers_custom_config: |
+#   # Allow users in admin group to use sudo with no password.
+#   %admin ALL=(ALL) NOPASSWD: ALL
+
+dotfiles_repo: https://github.com/sloboda/dotfiles.git 
+dotfiles_repo_accept_hostkey: true
+dotfiles_repo_version: main
+dotfiles_repo_local_destination: ~/Repositories/dotfiles
+dotfiles_files:
+  - .bashrc
+  - .gitconfig
+  - .gitignore
+  - .gvimrc
+# - .profile
+  - .tmux.conf
+  - .vimrc
+
+homebrew_installed_packages:
+  - ansible
+### bash on mac is primitive.  Get current bash.
+  - bash
+  - bwm-ng
+### get gdate (GNU date) and other GNU utilities via coreutils
+  - coreutils
+  - curl
+  - diff-so-fancy
+  - dos2unix
+  - gh
+## - hping # hping has been disabled because it is not maintained upstream! It was disabled on 2024-02-15.
+  - htop
+  - ifstat # from https://github.com/matryer/xbar-plugins/blob/main/Network/bandwidth_total.2s.lua
+  - iperf3
+  - iproute2mac
+  - jq
+##  - mermaid-cli # Error: No formulae or casks found for mermaid-cli.
+  - mtr
+  - nload
+  - nmap
+  - pandoc
+  - pylint  # check the python
+  - python3
+# https://github.com/BurntSushi/ripgrep
+  - rg
+  - ssh-copy-id
+  - terraform
+  - tmux
+##  - vault # Error: vault has been disabled because it will change its license to BUSL on the next release! It was disabled on 2024-09-27.
+  - watch
+  - wget
+  - xz
+
+homebrew_taps: []
+
+homebrew_cask_appdir: /Applications
+homebrew_cask_apps:
+## basictex for pdflatex https://superuser.com/a/1416736
+  - basictex
+  - calibre
+## diagrams!
+  - drawio
+  - iterm2
+  - macvim
+  - rectangle
+  - swiftbar
+
+# Glob pattern to ansible task files to run after all other tasks are finished.
+post_provision_tasks: []
