@@ -5,12 +5,30 @@ configure_terminal: false
 configure_osx: false
 
 # Set to 'true' to configure the Dock via dockutil.
-configure_dock: false
-dockitems_remove: []
-# - Launchpad
-# - TV
-# - Podcasts
-# - 'App Store'
+# I enjoy a minimalist dock
+configure_dock: true
+dockitems_remove:
+  - 'App Store'
+  - Calendar
+  - Contacts
+  - FaceTime
+  - Freeform
+  - Keynote
+  - Launchpad
+  - Mail
+  - Maps
+  - Messages
+  - Music
+  - News
+  - Notes
+  - Numbers
+  - Pages
+  - Photos
+  - Podcasts
+  - Reminders
+  - Safari
+  - 'System Settings'
+  - TV
 dockitems_persist: []
 # - name: "Sublime Text"
 #   path: "/Applications/Sublime Text.app/"
@@ -45,6 +63,7 @@ homebrew_installed_packages:
   - coreutils
   - curl
   - diff-so-fancy
+  - dockutil # manage Mac OS dock
   - dos2unix
   - gh
 ## - hping # hping has been disabled because it is not maintained upstream! It was disabled on 2024-02-15.
