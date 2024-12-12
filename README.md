@@ -32,6 +32,13 @@ One day in the future I will sort that out.
 ### Using Ansible
 
 ```
-ansible-playbook main.yml -K --tags "vim, dotfiles, homebrew"
+$ ansible-playbook main.yml -K  -i inventory  --list-tags
+
+playbook: main.yml
+
+  play #1 (all): Configure host.	TAGS: []
+      TASK TAGS: [always, dock, dotfiles, homebrew, osx, post, sudoers, terminal, vim]
+$ ansible-playbook main.yml -K  -i inventory --tags "homebrew, dotfiles, dock"
+$ ansible-playbook main.yml -K  -i inventory --tags "dock"
 ```
 
